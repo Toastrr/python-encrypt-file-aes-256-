@@ -11,3 +11,4 @@ filename = input("Input File Name: ")
 file = open(filename, "wb")
 file.write(data)
 file.close
+input("Press ENTER To EXIT")

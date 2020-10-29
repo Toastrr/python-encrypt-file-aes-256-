@@ -16,3 +16,4 @@ ciphertext, tag = cipher.encrypt_and_digest(data)
 file_out = open("encryptedf", "wb")
 [ file_out.write(x) for x in (cipher.nonce, tag, ciphertext) ]
 file_out.close()
+input("Press ENTER To EXIT")

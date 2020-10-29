@@ -16,3 +16,4 @@ To decrypt a file
 3. rename the key file to keyf
 4. run the decrypt.py program to decrypt the encrypted file
 5. enter the name for the decrypted file 
+This Program was adapted from an example located here: https://pycryptodome.readthedocs.io/en/latest/src/examples.html#encrypt-data-with-aes

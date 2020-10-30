@@ -40,7 +40,7 @@ def decyrpt():
             data = cipher.decrypt_and_verify(ciphertext, tag)
             file = open(filename, "wb")
             file.write(data)
-            file.close
+            file.close()
             print("Decryption Finished")
             input("Press ENTER To EXIT")
         except ValueError:
@@ -70,6 +70,7 @@ def encrypt():
     print("Please Enter the file name of the file to encrypt")
     filename = input()
     print("Beginning Encryption...")
+    print()
     try:
         tba = open(filename, "rb")
         tbe = tba.read()

@@ -25,6 +25,7 @@ To decrypt a file
 5. Enter the name and file extension for the decrypted file 
 
 Error Codes
+
 100 - The file you are trying to encrypt does not exist. Ensure you have typed in the name and extension of the file and that it is in the same folder as 'main.py'
 
 200 - The encryptedf or keyf files does not exist/s. Ensure you renamed the file containing the key to 'keyf' (without any extensions) and 'encryptedf' (without any extensions as well) and that the file are in the same folder as 'main.py'

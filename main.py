@@ -44,10 +44,13 @@ def decyrpt():
             print("Decryption Finished")
             input("Press ENTER To EXIT")
         except ValueError:
+            print("Error 201")
+            print()
             print("The keyf file has been tampered")
             print("Decryption cannot continue")
             input("Press ENTER to EXIT")
     except FileNotFoundError:
+        print("Error 200")
         print()
         print("The encrptedf or keyf files were not found")
         input("Press ENTER to EXIT")
@@ -80,6 +83,7 @@ def encrypt():
         print("Finished Encryption")
         input("Press ENTER To EXIT")
     except FileNotFoundError:
+        print("Error 100")
         print()
         print("ERROR: File does not exist")
         input("Press ENTER to EXIT")

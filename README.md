@@ -2,6 +2,7 @@
 This program requires pycryptodome.
 You can install PyCryptodome using pip3 install pycryptodome.
 This program encrypts or decrypts a file using aes256 encryption.
+The Encryption used is symmetric encryption. This means the key used to encrypt and decrypt is the same.
 Keys are generated via os.urandom.
 
 The encrypted file is stored as encryptedf.

@@ -33,4 +33,4 @@ Error Codes
 
 200 - The encryptedf or keyf files does not exist/s. Ensure you renamed the file containing the key to 'keyf' (without any extensions) and 'encryptedf' (without any extensions as well) and that the file are in the same folder as 'main.py'
 
-201 - The 'keyf' file has been tampered with. Ensure that it is the correct file and is the same binary as when you generated it
+201 - The 'keyf' file has been tampered with. Ensure that it is the correct file and is the exact same file as when you generated it

@@ -34,4 +34,5 @@ Error Codes
 
 201 - The encrypted file was not found. Ensure it is in the same folder as 'main.py and the extension ends with '.pae2xf'
 
-202 - The 'keyf' file has been tampered with. Ensure that it is the correct file.
+202 - The key ('.pae2xk') file has been tampered with. Ensure that it is the correct file.
+

@@ -28,6 +28,8 @@ To decrypt a file
 
 Error Codes
 
+001 - Pycryptodome is not installed or Crypto.Cipher was not imported sucessfully. Install pycryptodome by launching terminal/powershell and typing 'pip3 install pycryptodome'. Also ensure the location it is installed in is in the Python Path.
+
 100 - The file you are trying to encrypt does not exist. Ensure you have typed in the name and extension of the file and that it is in the same folder as 'main.py'
 
 200 - The key file was not found. Ensure it is in the same folder as 'main.py' and the extension ends with '.pae2xk'

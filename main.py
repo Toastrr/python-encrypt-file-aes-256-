@@ -1,22 +1,21 @@
 import os
-import subprocess
-import sys
-
-
-# check if things are installed
-def installmod(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-    redo()
 
 
 def checkmodexistai(modulei, modulep):
     try:
         return __import__(modulei)
     except ImportError:
+        print()
+        print("Error 001")
+        print()
         print("You have not installed: ", modulep)
-        print("And therefore not imported", modulei)
-        print("Installing Module")
-        installmod(modulep)
+        print("And therefore have not imported", modulei)
+        print()
+        print("Please Open Your terminal/powershell and enter the following command")
+        print("'pip3 install pycryptodome'")
+        print("Now relaunch this application")
+        print()
+        input("Press ENTER to EXIT")
 
 
 # error stuff
@@ -56,7 +55,8 @@ def actualencrypt(kfnx, tba, efx):
     file_out = open(efx, "wb")
     [file_out.write(x) for x in (cipher.nonce, tag, ciphertext)]
     file_out.close()
-    print()
+    data = ""
+    print(data)
     print("Finished Encryption")
     input("Press ENTER To EXIT")
 
@@ -143,7 +143,8 @@ def actualdecrpyt(encfnx, keyfnx, filename):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        print()
+        data = ""
+        print(data)
         print("Decryption Complete")
         input("Press ENTER to EXIT")
     except ValueError:
@@ -152,9 +153,6 @@ def actualdecrpyt(encfnx, keyfnx, filename):
         print()
         print("The Key file has been tampered with")
         print("Ensure it is the same file")
-
-
-
 
 
 def decyrpt():
@@ -212,22 +210,6 @@ def decyrpt():
         print("The Key file was not found")
         print("Ensure it ends with'.pae2xk' and is in the same folder as this program")
         input("Press ENTER to EXIT")
-
-
-##
-def redo():
-    print("Do you want to ENCRYPT or DECRYPT a file?")
-    print()
-    print("Enter 1 to ENCRYPT")
-    print("Enter 2 to DECRYPT")
-    print()
-    inq = input("Selection: ")
-    if inq == "1":
-        encrypt()
-    elif inq == "2":
-        decyrpt()
-    else:
-        incorsel()
 
 
 # main

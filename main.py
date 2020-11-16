@@ -5,30 +5,24 @@ def checkmodexistai(modulei, modulep):
     try:
         return __import__(modulei)
     except ImportError:
-        print()
-        print("Error 001")
-        print()
-        print("You have not installed: ", modulep)
+        print("\nError 001")
+        print("\nYou have not installed: ", modulep)
         print("And therefore have not imported", modulei)
-        print()
-        print("Please Open Your terminal/powershell and enter the following command")
+        print("\nPlease Open Your terminal/powershell and enter the following command")
         print("'pip3 install pycryptodome'")
         print("Now relaunch this application")
-        print()
-        input("Press ENTER to EXIT")
+        input("\nPress ENTER to EXIT")
 
 
 # error stuff
 def cancelenc():
-    print()
-    print("Operation Canceled")
-    input("Press ENTER to EXIT")
+    print("\nOperation Canceled")
+    input("\nPress ENTER to EXIT")
 
 
 def incorsel():
-    print()
-    print("Incorrect Selection")
-    input("Press ENTER to EXIT")
+    print("\nIncorrect Selection")
+    input("\nPress ENTER to EXIT")
 
 
 # encrypting stuff
@@ -37,28 +31,27 @@ def actualencrypt(kfnx, tba, efx):
     print("Generating Key...")
     key = os.urandom(32)
     cipher = AES.new(key, AES.MODE_EAX)
-    print()
-    print("Writing Key...")
+    print("\nWriting Key...")
     file_out = open(kfnx, "wb")
     file_out.write(key)
     file_out.close()
-    print()
-    print("Reading File...")
+    del file_out
+    print("\nReading File...")
     tbe = tba.read()
     tba.close()
     data = tbe
-    print()
-    print("Encrypting File...")
+    del tbe
+    del tba
+    print("\nEncrypting File...")
+    print("This may take some time")
     ciphertext, tag = cipher.encrypt_and_digest(data)
-    print()
-    print("Writing Encrypted File...")
+    print("\nWriting Encrypted File...")
     file_out = open(efx, "wb")
     [file_out.write(x) for x in (cipher.nonce, tag, ciphertext)]
     file_out.close()
-    data = ""
-    print(data)
-    print("Finished Encryption")
-    input("Press ENTER To EXIT")
+    del data
+    print("\nFinished Encryption")
+    input("\nPress ENTER To EXIT")
 
 
 def tryenc(kfnx, tba):
@@ -67,14 +60,12 @@ def tryenc(kfnx, tba):
     efx = str(efn) + str(".pae2xf")
     try:
         open(efx, "rb")
-        print()
-        print("A file with the same name as the encrypted file has been detected")
+        print("\nA file with the same name as the encrypted file has been detected")
         print("If you continue the file will be overwritten")
-        print()
-        inp = input("Do you wish to continue (Y/n): ")
-        if inp == "Y":
+        inp = input("\nDo you wish to continue (Y/n): ")
+        if inp == "Y" or "y":
             actualencrypt(kfnx, tba, efx)
-        elif inp == "n":
+        elif inp == "n" or "N":
             cancelenc()
         else:
             incorsel()
@@ -83,92 +74,74 @@ def tryenc(kfnx, tba):
 
 
 def encrypt():
-    print()
-    print("This program encrypts a file using AES 256 Encryption")
-    print()
-    print("The encrypted file will end in a '.pae2xf' extension")
+    print("\nThis program encrypts a file using AES 256 Encryption")
+    print("\nThe encrypted file will end in a '.pae2xf' extension")
     print("The key file will end in a '.pae2xk' extension")
-    print()
-    print("Please Enter the file name and file extension of the file to encrypt:")
+    print("\nPlease Enter the file name and file extension of the file to encrypt:")
     filename = input()
     try:
         tba = open(filename, "rb")
-        print()
-        print("Please enter a name for the file that will contain the key:")
+        print("\nPlease enter a name for the file that will contain the key:")
         kfn = input()
         kfnx = str(kfn) + str(".pae2xk")
         try:
             open(kfnx, "rb")
-            print()
-            print("A file with the same name as the key has been detected")
+            print("\nA file with the same name as the key has been detected")
             print("If you continue the file will be overwritten")
-            print()
-            inpt = input("Do you wish to continue (Y/n): ")
-            if inpt == "Y":
+            inpt = input("\nDo you wish to continue (Y/n): ")
+            if inpt == "Y" or "y":
                 tryenc(kfnx, tba)
-            elif inpt == "n":
+            elif inpt == "n" or "N":
                 cancelenc()
             else:
                 incorsel()
         except FileNotFoundError:
             tryenc(kfnx, tba)
     except FileNotFoundError:
-        print()
-        print("Error 100")
-        print()
-        print("ERROR: File does not exist")
-        input("Press ENTER to EXIT")
+        print("\nError 100")
+        print("\nERROR: File does not exist")
+        input("\nPress ENTER to EXIT")
 
 
 # decrypting stuff
 def actualdecrpyt(encfnx, keyfnx, filename):
     from Crypto.Cipher import AES
-    print()
-    print("Reading Encrypted File...")
+    print("\nReading Encrypted File...")
     file_in = open(encfnx, "rb")
     nonce, tag, ciphertext = [file_in.read(x) for x in (16, 16, -1)]
-    print()
-    print("Reading Key...")
+    print("\nReading Key...")
     file_in = open(keyfnx, "rb")
     key = file_in.read()
     file_in.close()
-    print()
-    print("Decrypting in progress...")
+    del file_in
+    print("\nDecrypting in progress...")
     print("This may take some time")
     cipher = AES.new(key, AES.MODE_EAX, nonce)
     try:
         data = cipher.decrypt_and_verify(ciphertext, tag)
-        print()
-        print("Writing data")
+        print("\nWriting data")
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        data = ""
-        print(data)
-        print("Decryption Complete")
-        input("Press ENTER to EXIT")
+        del file
+        del data
+        print("\nDecryption Complete")
+        input("\nPress ENTER to EXIT")
     except ValueError:
-        print()
-        print("Error 201")
-        print()
-        print("The Key file has been tampered with")
+        print("\nError 201")
+        print("\nThe Key file has been tampered with")
         print("Ensure it is the same file")
 
 
 def decyrpt():
-    print()
-    print("This program decrypts AES 256 encryption")
+    print("\nThis program decrypts AES 256 encryption")
     print("Copy both the encrypted file and key file into the same folder as this program")
-    print()
-    print("The key file should end with '.pae2xk' if it was encrypted with this program")
+    print("\nThe key file should end with '.pae2xk' if it was encrypted with this program")
     print("If not please rename the extension to '.pae2xk'")
-    print()
-    print("The encrypted file should end with '.pae2xf' if it was encrypted with this program")
+    print("\nThe encrypted file should end with '.pae2xf' if it was encrypted with this program")
     print("If not please rename the extension to '.pae2xf'")
-    print()
-    input("Press ENTER to continue")
-    print()
-    print("Please enter the name of the file containing the key:")
+    input("\nPress ENTER to continue")
+    print("\nPlease enter the name of the file containing the key:")
     keyfn = input()
     keyfnx = str(keyfn) + str(".pae2xk")
     try:
@@ -186,8 +159,7 @@ def decyrpt():
                 open(filename, "rb")
                 print("A file with the same name has been detected")
                 print("If you continue it will be overwritten")
-                print()
-                iot = input("Do you Wish to Continue (Y/n): ")
+                iot = input("\nDo you Wish to Continue (Y/n): ")
                 if iot == "Y":
                     actualdecrpyt(encfnx, keyfnx, filename)
                 elif iot == "n":
@@ -197,29 +169,23 @@ def decyrpt():
             except FileNotFoundError:
                 actualdecrpyt(encfnx, keyfnx, filename)
         except FileNotFoundError:
-            print()
-            print("Error 201")
-            print()
-            print("The Encrypted file was not found")
+            print("\nError 201")
+            print("\nThe Encrypted file was not found")
             print("Ensure it ends with'.pae2xf' and is in the same folder as this program")
-            input("Press ENTER to EXIT")
+            input("\nPress ENTER to EXIT")
     except FileNotFoundError:
-        print()
-        print("Error 200")
-        print()
-        print("The Key file was not found")
+        print("\nError 200")
+        print("\nThe Key file was not found")
         print("Ensure it ends with'.pae2xk' and is in the same folder as this program")
-        input("Press ENTER to EXIT")
+        input("\nPress ENTER to EXIT")
 
 
 # main
 checkmodexistai("Crypto.Cipher", "pycryptodome")
 print("Do you want to ENCRYPT or DECRYPT a file?")
-print()
-print("Enter 1 to ENCRYPT")
+print("\nEnter 1 to ENCRYPT")
 print("Enter 2 to DECRYPT")
-print()
-inl = input("Selection: ")
+inl = input("\nSelection: ")
 if inl == "1":
     encrypt()
 elif inl == "2":

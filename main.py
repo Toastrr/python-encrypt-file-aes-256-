@@ -25,6 +25,7 @@ def cancelenc():
 def incorsel():
     print("\nIncorrect Selection")
     input("\nPress ENTER to EXIT")
+    sys.exit(1)
 
 
 # encrypting stuff
@@ -82,11 +83,13 @@ def encrypt():
     filename = input()
     try:
         tba = open(filename, "rb")
+        tba.close()
         print("\nPlease enter a name for the file that will contain the key:")
         kfn = input()
         kfnx = str(kfn) + str(".pae2xk")
         try:
-            open(kfnx, "rb")
+            attempt_open_key = open(kfnx, "rb")
+            attempt_open_key.close()
             print("\nA file with the same name as the key has been detected")
             print("If you continue the file will be overwritten")
             inpt = input("\nDo you wish to continue (Y/n): ").lower()
@@ -157,7 +160,8 @@ def decyrpt():
             print("Enter a File Name and extension for the decrypted file")
             filename = input()
             try:
-                open(filename, "rb")
+                attempt_to_detect_existing_file = open(filename, "rb")
+                attempt_to_detect_existing_file.close()
                 print("A file with the same name has been detected")
                 print("If you continue it will be overwritten")
                 iot = input("\nDo you Wish to Continue (Y/n): ").lower()

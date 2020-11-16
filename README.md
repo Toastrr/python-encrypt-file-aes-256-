@@ -5,7 +5,6 @@ This program encrypts or decrypts a file using aes256 encryption.
 The Encryption used is symmetric encryption. This means the key used to encrypt and decrypt is the same.
 Keys are generated via os.urandom.
 
-'main.py' and 'main.pyc' is the same. the .pyc file is already compiled into binary. Thus, saving a tiny bit of resources.
 
 The encrypted file is stored with an extension of '.pae2xf'.
 The file containing the key is stored as '.pae2xk' .

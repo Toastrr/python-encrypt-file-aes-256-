@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def checkmodexistai(modulei, modulep):
@@ -12,6 +13,7 @@ def checkmodexistai(modulei, modulep):
         print("'pip3 install pycryptodome'")
         print("Now relaunch this application")
         input("\nPress ENTER to EXIT")
+        sys.exit(1)
 
 
 # error stuff
@@ -35,7 +37,6 @@ def actualencrypt(kfnx, tba, efx):
     file_out = open(kfnx, "wb")
     file_out.write(key)
     file_out.close()
-    del file_out
     print("\nReading File...")
     tbe = tba.read()
     tba.close()
@@ -62,10 +63,10 @@ def tryenc(kfnx, tba):
         open(efx, "rb")
         print("\nA file with the same name as the encrypted file has been detected")
         print("If you continue the file will be overwritten")
-        inp = input("\nDo you wish to continue (Y/n): ")
-        if inp == "Y" or "y":
+        inp = input("\nDo you wish to continue (Y/n): ").lower()
+        if inp == "y":
             actualencrypt(kfnx, tba, efx)
-        elif inp == "n" or "N":
+        elif inp == "n":
             cancelenc()
         else:
             incorsel()
@@ -88,10 +89,10 @@ def encrypt():
             open(kfnx, "rb")
             print("\nA file with the same name as the key has been detected")
             print("If you continue the file will be overwritten")
-            inpt = input("\nDo you wish to continue (Y/n): ")
-            if inpt == "Y" or "y":
+            inpt = input("\nDo you wish to continue (Y/n): ").lower()
+            if inpt == "y":
                 tryenc(kfnx, tba)
-            elif inpt == "n" or "N":
+            elif inpt == "n":
                 cancelenc()
             else:
                 incorsel()
@@ -101,6 +102,7 @@ def encrypt():
         print("\nError 100")
         print("\nERROR: File does not exist")
         input("\nPress ENTER to EXIT")
+        sys.exit(1)
 
 
 # decrypting stuff
@@ -113,7 +115,6 @@ def actualdecrpyt(encfnx, keyfnx, filename):
     file_in = open(keyfnx, "rb")
     key = file_in.read()
     file_in.close()
-    del file_in
     print("\nDecrypting in progress...")
     print("This may take some time")
     cipher = AES.new(key, AES.MODE_EAX, nonce)
@@ -123,7 +124,6 @@ def actualdecrpyt(encfnx, keyfnx, filename):
         file = open(filename, "wb")
         file.write(data)
         file.close()
-        del file
         del data
         print("\nDecryption Complete")
         input("\nPress ENTER to EXIT")
@@ -131,6 +131,7 @@ def actualdecrpyt(encfnx, keyfnx, filename):
         print("\nError 201")
         print("\nThe Key file has been tampered with")
         print("Ensure it is the same file")
+        sys.exit(1)
 
 
 def decyrpt():
@@ -159,8 +160,8 @@ def decyrpt():
                 open(filename, "rb")
                 print("A file with the same name has been detected")
                 print("If you continue it will be overwritten")
-                iot = input("\nDo you Wish to Continue (Y/n): ")
-                if iot == "Y":
+                iot = input("\nDo you Wish to Continue (Y/n): ").lower()
+                if iot == "y":
                     actualdecrpyt(encfnx, keyfnx, filename)
                 elif iot == "n":
                     cancelenc()
@@ -180,15 +181,19 @@ def decyrpt():
         input("\nPress ENTER to EXIT")
 
 
-# main
-checkmodexistai("Crypto.Cipher", "pycryptodome")
-print("Do you want to ENCRYPT or DECRYPT a file?")
-print("\nEnter 1 to ENCRYPT")
-print("Enter 2 to DECRYPT")
-inl = input("\nSelection: ")
-if inl == "1":
-    encrypt()
-elif inl == "2":
-    decyrpt()
-else:
-    incorsel()
+def main():
+    checkmodexistai("Crypto.Cipher", "pycryptodome")
+    print("Do you want to ENCRYPT or DECRYPT a file?")
+    print("\nEnter 1 to ENCRYPT")
+    print("Enter 2 to DECRYPT")
+    inl = input("\nSelection: ")
+    if inl == "1":
+        encrypt()
+    elif inl == "2":
+        decyrpt()
+    else:
+        incorsel()
+
+
+if __name__ == '__main__':
+    main()

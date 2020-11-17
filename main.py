@@ -105,7 +105,6 @@ def encrypt():
         except FileNotFoundError:
             tryenc(kfnx, tba)
     except FileNotFoundError:
-        tba.close()
         print("\nError 100")
         print("\nERROR: File does not exist")
         input("\nPress ENTER to EXIT")
@@ -182,11 +181,13 @@ def decyrpt():
             print("\nThe Encrypted file was not found")
             print("Ensure it ends with'.pae2xf' and is in the same folder as this program")
             input("\nPress ENTER to EXIT")
+            sys.exit(1)
     except FileNotFoundError:
         print("\nError 200")
         print("\nThe Key file was not found")
         print("Ensure it ends with'.pae2xk' and is in the same folder as this program")
         input("\nPress ENTER to EXIT")
+        sys.exit(1)
 
 
 def main():

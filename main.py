@@ -69,8 +69,10 @@ def tryenc(kfnx, tba):
             actualencrypt(kfnx, tba, efx)
         elif inp == "n":
             cancelenc()
+            tba.close()
         else:
             incorsel()
+            tba.close()
     except FileNotFoundError:
         actualencrypt(kfnx, tba, efx)
 
@@ -83,7 +85,6 @@ def encrypt():
     filename = input()
     try:
         tba = open(filename, "rb")
-        tba.close()
         print("\nPlease enter a name for the file that will contain the key:")
         kfn = input()
         kfnx = str(kfn) + str(".pae2xk")
@@ -96,12 +97,15 @@ def encrypt():
             if inpt == "y":
                 tryenc(kfnx, tba)
             elif inpt == "n":
+                tba.close()
                 cancelenc()
             else:
+                tba.close()
                 incorsel()
         except FileNotFoundError:
             tryenc(kfnx, tba)
     except FileNotFoundError:
+        tba.close()
         print("\nError 100")
         print("\nERROR: File does not exist")
         input("\nPress ENTER to EXIT")

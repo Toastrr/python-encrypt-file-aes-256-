@@ -10,12 +10,14 @@ def write_data(filename, data):
     file = open(filename, "wb")
     file.write(data)
     file.close()
+    del data, file
 
 
 def read_data(filename):
     file = open(filename, "rb")
     data_read = file.read()
     file.close()
+    del file
     return data_read
 
 
@@ -45,9 +47,11 @@ def aes_encrypt(filename_to_encrypt, key_filename, encrypted_filename):
     write_data(key_filename, cipher[1])
     data_to_encrypt = read_data(filename_to_encrypt)
     encrypted_data = aes_encrypt_data(data_to_encrypt, cipher[0])
+    del data_to_encrypt
     write_encrypted_data = open(encrypted_filename, "wb")
     [write_encrypted_data.write(i) for i in (encrypted_data[0], encrypted_data[1], encrypted_data[2])]
     write_encrypted_data.close()
+    del encrypted_data, write_encrypted_data
 
 
 # AES Decrypt
@@ -55,11 +59,13 @@ def aes_read_encrypted_data(filename):
     encrypted_file = open(filename, "rb")
     nonce, tag, ciphertext = [encrypted_file.read(x) for x in (16, 16, -1)]
     encrypted_file.close()
+    del encrypted_file
     return nonce, tag, ciphertext
 
 
 def aes_decrypt_data(ciphertext, tag, cipher):
     decrypted_data = cipher.decrypt_and_verify(ciphertext, tag)
+    del ciphertext, tag, cipher
     return decrypted_data
 
 
@@ -67,8 +73,11 @@ def aes_decrypt(encrypted_filename, key_filename, decrypted_filename):
     encrypted_data = aes_read_encrypted_data(encrypted_filename)
     random_bytes = read_data(key_filename)
     cipher = AES.new(random_bytes, AES.MODE_EAX, encrypted_data[0])
+    del random_bytes
     decrypted_data = aes_decrypt_data(encrypted_data[2], encrypted_data[1], cipher)
+    del cipher, encrypted_data
     write_data(decrypted_filename, decrypted_data)
+    del decrypted_data
 
 
 # RSA
@@ -77,6 +86,7 @@ def rsa_key_generate():
     key = RSA.generate(4096)
     private_key = key.exportKey()
     public_key = key.publickey().export_key()
+    del key
     return private_key, public_key
 
 
@@ -84,7 +94,9 @@ def rsa_key_generate():
 def rsa_encrypt_data(data, public_key):
     recipient_key = RSA.import_key(public_key)
     cipher_rsa = PKCS1_OAEP.new(recipient_key)
+    del recipient_key
     encrypted_data = cipher_rsa.encrypt(data)
+    del cipher_rsa, data
     return encrypted_data
 
 
@@ -92,6 +104,7 @@ def rsa_encrypt(filename_to_encrypt, public_key_filename, encrypted_filename):
     data_to_encrypt = read_data(filename_to_encrypt)
     public_key = read_data(public_key_filename)
     encrypted_data = rsa_encrypt_data(data_to_encrypt, public_key)
+    del data_to_encrypt, public_key
     write_data(encrypted_filename, encrypted_data)
 
 
@@ -99,7 +112,9 @@ def rsa_encrypt(filename_to_encrypt, public_key_filename, encrypted_filename):
 def rsa_decrypt_data(encrypted_data, private_key):
     private_key = RSA.import_key(private_key)
     rsa_cipher = PKCS1_OAEP.new(private_key)
+    del private_key
     decrypted_data = rsa_cipher.decrypt(encrypted_data)
+    del rsa_cipher
     return decrypted_data
 
 
@@ -107,7 +122,9 @@ def rsa_decrypt(encrypted_filename, private_key_filename, decrypted_filename):
     encrypted_data = read_data(encrypted_filename)
     private_key = read_data(private_key_filename)
     decrypted_data = rsa_decrypt_data(encrypted_data, private_key)
+    del encrypted_data, private_key
     write_data(decrypted_filename, decrypted_data)
+    del decrypted_data
 
 
 def invalid_selection():

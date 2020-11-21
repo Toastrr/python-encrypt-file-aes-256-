@@ -1,39 +1,42 @@
-# python-encrypt-file-aes-256-
+# python-file-encryption
 This program requires pycryptodome.
 You can install PyCryptodome using pip3 install pycryptodome.
 This program encrypts or decrypts a file using aes256 encryption.
-The Encryption used is symmetric encryption. This means the key used to encrypt and decrypt is the same.
 Keys are generated via os.urandom.
 
+This Program Encrypts Files with AES 256 or RSA 4096 Encryption
 
-The encrypted file is stored with an extension of '.pae2xf'.
-The file containing the key is stored as '.pae2xk' .
+This Program was adapted from an example located here: https://pycryptodome.readthedocs.io/en/latest/src/examples.html#encrypt-data-with-aes and https://pycryptodome.readthedocs.io/en/latest/src/examples.html#encrypt-data-with-rsa
 
-This Program was adapted from an example located here: https://pycryptodome.readthedocs.io/en/latest/src/examples.html#encrypt-data-with-aes
+AES 256
+To Encrypt:
+Copy the file to the same folder as main.py
+Follow the Instruction on the program 
+The Encrypted File will have a file extension of '.pae2xf'
+The Key will have a file extension of '.pae2xk'
+The Key should be kept safe as it us the ONLY thing that can decrypt the encrypted file
 
-To encrypt a file
-1. Copy and paste the file to the same folder as the program
-2. Run the 'main.py' file
-3. Select 1
-4. Type in the file name and file extension
-5. The file with the extension of '.pae2xk' is the file that stores the key. Keep this safe as this is the key used to decrypt the file
-6. The file with the extension of '.pae2xf' is the encrypted file. The file is encrypted and can be decrypted with this program with the key file
+To Decrypt:
+Copy the files to the same folder as main.py
+If the file was not encrypted with this program please rename the encrypted file to '.pae2xf' and the key as '.pae2xk'
+Follow the instructions on the Program
 
-To decrypt a file
-1. Copy and paste the encrypted file and key file to the same folder as this program
-2. If the program used to encrypt this file was not this program rename the file extension of the key file to '.pae2xk' adn the encrypted file's extension to '.pae2xf'
-3. Run the 'main.py' file to decrypt the encrypted file
-5. Enter the name and file extension for the decrypted file 
+RSA 4096
+To Generate a key pair:
+Follow the instructions on the Program 
+The Private Key will have a file extension of '.prs4pri'
+The Public Key will have a file extension of '.prs4pub'
+The Public Key can be used to encrypt data 
+ONLY the Private Key can decrypt any data encrypted by the Public Key
 
-Error Codes
+To Encrypt:
+Copy the Public Key and file to be encrypted to the same folder as the program
+Follow the Instructions on the program
+If the Public Key was not generated via this program rename the file extension to '.prs4pub'
+Only the Private Key can decrypt the data encrypted 
 
-001 - Pycryptodome is not installed or Crypto.Cipher was not imported sucessfully. Install pycryptodome by launching terminal/powershell and typing 'pip3 install pycryptodome'. Also ensure the location it is installed in is in the Python Path.
-
-100 - The file you are trying to encrypt does not exist. Ensure you have typed in the name and extension of the file and that it is in the same folder as 'main.py'
-
-200 - The key file was not found. Ensure it is in the same folder as 'main.py' and the extension ends with '.pae2xk'
-
-201 - The encrypted file was not found. Ensure it is in the same folder as 'main.py and the extension ends with '.pae2xf'
-
-202 - The key ('.pae2xk') file has been tampered with. Ensure that it is the correct file.
-
+To Decrypt:
+Copy the Encrypted file and the Private Key to the same folder as the program
+Follow the Instructions on the program 
+If the Public Key was not generated via this program rename the file extension to '.prs4pri'
+If the encryption was not done via this program rename the encrypted file extension to '.prs4enc'

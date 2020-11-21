@@ -1,4 +1,4 @@
-# python-encrypt-file-aes-256-
+# python-file-encryption
 This program requires pycryptodome.
 You can install PyCryptodome using pip3 install pycryptodome.
 This program encrypts or decrypts a file using aes256 encryption.

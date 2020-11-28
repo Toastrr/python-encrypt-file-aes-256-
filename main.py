@@ -128,14 +128,14 @@ def rsa_decrypt(encrypted_filename, private_key_filename, decrypted_filename):
 
 
 def invalid_selection():
-    print("Invalid Selection")
-    input("Press ENTER to EXIT")
+    print("\nInvalid Selection")
+    input("\nPress ENTER to EXIT")
     sys.exit(1)
 
 
 def cancel():
-    print("The Operation has been canceled")
-    input("Press ENTER to EXIT")
+    print("\nThe Operation has been canceled")
+    input("\nPress ENTER to EXIT")
     sys.exit()
 
 
@@ -143,11 +143,11 @@ def main():
     print("This Program Encrypted or Decrypts Data via AES 256 or RSA 4096")
     print("\nEnter 1 for AES 256")
     print("Enter 2 for RSA 4096")
-    encryption_method_selection = input("Selection: ")
+    encryption_method_selection = input("\nSelection: ")
     if encryption_method_selection == "1":
         print("\nEnter 1 to Encrypt Data")
         print("Enter 2 to Decrypt Data")
-        selection = input("Selection: ")
+        selection = input("\nSelection: ")
         if selection == "1":
             print("\nThis program encrypts a file using AES 256 Encryption")
             print("\nThe encrypted file will end in a '.pae2xf' extension")
@@ -155,8 +155,8 @@ def main():
             print("\nPlease Enter the file name and file extension of the file to encrypt:")
             to_encrypt_filename = input()
             if not file_detection(to_encrypt_filename):
-                print("Error: File Does not exit")
-                input("Press ENTER to EXIT")
+                print("\nError: File Does not exit")
+                input("\nPress ENTER to EXIT")
                 sys.exit(1)
             else:
                 print("\nPlease enter a name for the file that will contain the key:")
@@ -164,19 +164,19 @@ def main():
                 if key_filename[-7:] != ".pae2xk":
                     key_filename = str(key_filename) + str(".pae2xk")
                 if file_detection(key_filename):
-                    print("A file with the same name has been detected")
+                    print("\nA file with the same name has been detected")
                     print("If you continue the file will be overwritten")
                     over_write_key = input("\nDo you wish to continue (Y/n): ").lower()
                     if over_write_key == "n":
                         cancel()
                     if over_write_key != "y":
                         invalid_selection()
-                print("Please enter a file name for the encrypted file:")
+                print("\nPlease enter a file name for the encrypted file:")
                 encrypted_filename = input()
                 if encrypted_filename[-7:] != ".pae2xf":
                     encrypted_filename = str(encrypted_filename) + str(".pae2xf")
                 if file_detection(encrypted_filename):
-                    print("A file with the same name has been detected")
+                    print("\nA file with the same name has been detected")
                     print("If you continue the file will be overwritten")
                     over_write_encrypted = input("\nDo you wish to continue (Y/n): ").lower()
                     if over_write_encrypted == "n":
@@ -206,7 +206,7 @@ def main():
                 print("Ensure it ends with'.pae2xk' and is in the same folder as this program")
                 input("\nPress ENTER to EXIT")
                 sys.exit(1)
-            print("Please enter the name of the encrypted file:")
+            print("\nPlease enter the name of the encrypted file:")
             encrypted_filename = input()
             if encrypted_filename[-7:] != ".pae2xf":
                 encrypted_filename = str(encrypted_filename) + str(".pae2xf")
@@ -215,10 +215,10 @@ def main():
                 print("Ensure it ends with'.pae2xf' and is in the same folder as this program")
                 input("\nPress ENTER to EXIT")
                 sys.exit(1)
-            print("Enter a File Name and extension for the decrypted file")
+            print("\nEnter a File Name and extension for the decrypted file")
             decrypted_filename = input()
             if file_detection(decrypted_filename):
-                print("A file with the same name has been detected")
+                print("\nA file with the same name has been detected")
                 print("If you continue the file will be overwritten")
                 over_write_decrypted = input("\nDo you wish to continue (Y/n): ").lower()
                 if over_write_decrypted == "n":
@@ -236,7 +236,7 @@ def main():
         print("\nEnter 1 to Encrypt Data")
         print("Enter 2 to Decrypt Data")
         print("Enter 3 to Generate Keys")
-        selection = input("Selection: ")
+        selection = input("\nSelection: ")
         if selection == "1":
             print("\nThis Program Encrypts Data via RSA 4096 Public Key")
             print("Please Copy The File to be Encrypted and Public Key into the same Folder as this Program")
@@ -250,7 +250,7 @@ def main():
                 key_filename = str(key_filename) + str('.prs4pub')
             if not file_detection(key_filename):
                 print("\nError: File Does not exit")
-                input("Press ENTER to EXIT")
+                input("\nPress ENTER to EXIT")
             else:
                 print("\nPlease Enter the file name and file extension of the file to encrypt:")
                 to_encrypt_filename = input()
@@ -266,7 +266,7 @@ def main():
                     rsa_encrypt(to_encrypt_filename, key_filename, encrypted_filename)
                     print("\nEncryption Complete")
                     print(f"The Encrypted file has been saved as {encrypted_filename}")
-                    input("Press ENTER to EXIT")
+                    input("\nPress ENTER to EXIT")
         elif selection == "2":
             print("\nThis Program Decrypts Data via RSA 4096 Private Key")
             print("Please Copy The File to be Encrypted and Private Key into the same Folder as this Program")
@@ -281,7 +281,7 @@ def main():
                 private_key_filename = str(private_key_filename) + str('.prs4pri')
             if not file_detection(private_key_filename):
                 print("\nError: File Does not exit")
-                input("Press ENTER to EXIT")
+                input("\nPress ENTER to EXIT")
             else:
                 print("\nPlease Enter the Encrypted file name")
                 encrypted_filename = input()
@@ -289,12 +289,12 @@ def main():
                     encrypted_filename = str(encrypted_filename) + str('.prs4enc')
                 if not file_detection(encrypted_filename):
                     print("\nError: File Does not exit")
-                    input("Press ENTER to EXIT")
+                    input("\nPress ENTER to EXIT")
                 else:
                     print("\nEnter a File Name and extension for the decrypted file")
                     decrypted_filename = input()
                     if file_detection(decrypted_filename):
-                        print("A file with the same name has been detected")
+                        print("\nA file with the same name has been detected")
                         print("If you continue the file will be overwritten")
                         over_write_decrypted = input("\nDo you wish to continue (Y/n): ").lower()
                         if over_write_decrypted == 'n':
@@ -318,7 +318,7 @@ def main():
             if pub_key_filename[-8:] != ".prs4pub":
                 pub_key_filename = str(pub_key_filename) + str(".prs4pub")
             if file_detection(pub_key_filename):
-                print("A file with the same name has been detected")
+                print("\nA file with the same name has been detected")
                 print("If you continue the file will be overwritten")
                 over_write_rsa_pub_key = input("\nDo you wish to continue (Y/n): ").lower()
                 if over_write_rsa_pub_key == "n":
@@ -330,7 +330,7 @@ def main():
             if priv_key_filename[-8:] != ".prs4pri":
                 priv_key_filename = str(priv_key_filename) + str(".prs4pri")
             if file_detection(priv_key_filename):
-                print("A file with the same name has been detected")
+                print("\nA file with the same name has been detected")
                 print("If you continue the file will be overwritten")
                 over_write_rsa_priv_key = input("\nDo you wish to continue (Y/n): ").lower()
                 if over_write_rsa_priv_key == "n":

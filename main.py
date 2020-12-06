@@ -3,6 +3,8 @@ import sys
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
+import tkinter as tk
+from tkinter import filedialog
 
 
 # Stuff
@@ -127,6 +129,7 @@ def rsa_decrypt(encrypted_filename, private_key_filename, decrypted_filename):
     del decrypted_data
 
 
+# User options and displays
 def invalid_selection():
     print("\nInvalid Selection")
     input("\nPress ENTER to EXIT")
@@ -139,6 +142,33 @@ def cancel():
     sys.exit()
 
 
+def file_not_found():
+    print("\nError: File Does not exit")
+    input("\nPress ENTER to EXIT")
+    sys.exit(1)
+
+
+def open_file_dialog():
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename()
+    if file_path is None:
+        cancel()
+    else:
+        return file_path
+
+
+def save_file_dialog(file_extension):
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.asksaveasfilename(defaultextension=file_extension)
+    if file_path is None:
+        cancel()
+    else:
+        return file_path
+
+
+# main program
 def main():
     print("This Program Encrypted or Decrypts Data via AES 256 or RSA 4096")
     print("\nEnter 1 for AES 256")
@@ -150,85 +180,41 @@ def main():
         selection = input("\nSelection: ")
         if selection == "1":
             print("\nThis program encrypts a file using AES 256 Encryption")
-            print("\nThe encrypted file will end in a '.pae2xf' extension")
-            print("The key file will end in a '.pae2xk' extension")
-            print("\nPlease Enter the file name and file extension of the file to encrypt:")
-            to_encrypt_filename = input()
+            input("\nPress ENTER to select the File to be Encrypted")
+            to_encrypt_filename = open_file_dialog()
             if not file_detection(to_encrypt_filename):
-                print("\nError: File Does not exit")
-                input("\nPress ENTER to EXIT")
-                sys.exit(1)
+                file_not_found()
             else:
-                print("\nPlease enter a name for the file that will contain the key:")
-                key_filename = input()
-                if key_filename[-7:] != ".pae2xk":
-                    key_filename = str(key_filename) + str(".pae2xk")
-                if file_detection(key_filename):
-                    print("\nA file with the same name has been detected")
-                    print("If you continue the file will be overwritten")
-                    over_write_key = input("\nDo you wish to continue (Y/n): ").lower()
-                    if over_write_key == "n":
-                        cancel()
-                    if over_write_key != "y":
-                        invalid_selection()
-                print("\nPlease enter a file name for the encrypted file:")
-                encrypted_filename = input()
-                if encrypted_filename[-7:] != ".pae2xf":
-                    encrypted_filename = str(encrypted_filename) + str(".pae2xf")
-                if file_detection(encrypted_filename):
-                    print("\nA file with the same name has been detected")
-                    print("If you continue the file will be overwritten")
-                    over_write_encrypted = input("\nDo you wish to continue (Y/n): ").lower()
-                    if over_write_encrypted == "n":
-                        cancel()
-                    if over_write_encrypted != "y":
-                        invalid_selection()
+                input("\nPress ENTER to select where the Key File will be Saved")
+                key_filename = save_file_dialog(".pae2xk")
+                input("\nPress ENTER to select where the Encrypted File will be Saved")
+                encrypted_filename = save_file_dialog(".pae2xf")
                 print("\nEncryption in progress...")
                 aes_encrypt(to_encrypt_filename, key_filename, encrypted_filename)
                 print("\nEncryption Finished")
-                print(f"The Key has been saved as {key_filename}")
-                print(f"The Encrypted file has been saved as {encrypted_filename}")
+                print(f"The Key has been saved at {key_filename}")
+                print(f"The Encrypted file has been saved at {encrypted_filename}")
                 input("\nPress ENTER to EXIT")
         elif selection == "2":
             print("\nThis program decrypts AES 256 encryption")
-            print("Copy both the encrypted file and key file into the same folder as this program")
-            print("\nThe key file should end with '.pae2xk' if it was encrypted with this program")
-            print("If not please rename the extension to '.pae2xk'")
-            print("\nThe encrypted file should end with '.pae2xf' if it was encrypted with this program")
-            print("If not please rename the extension to '.pae2xf'")
-            input("\nPress ENTER to continue")
-            print("\nPlease enter the name of the file containing the key:")
-            key_filename = input()
-            if key_filename[-7:] != ".pae2xk":
-                key_filename = str(key_filename) + str(".pae2xk")
+            input("\nPress ENTER to select the location of the Key File")
+            key_filename = open_file_dialog()
             if not file_detection(key_filename):
                 print("\nThe Key file was not found")
-                print("Ensure it ends with'.pae2xk' and is in the same folder as this program")
                 input("\nPress ENTER to EXIT")
                 sys.exit(1)
-            print("\nPlease enter the name of the encrypted file:")
-            encrypted_filename = input()
-            if encrypted_filename[-7:] != ".pae2xf":
-                encrypted_filename = str(encrypted_filename) + str(".pae2xf")
+            input("\nPress ENTER to select the location of the Encrypted File")
+            encrypted_filename = open_file_dialog()
             if not file_detection(encrypted_filename):
                 print("\nThe Encrypted file was not found")
-                print("Ensure it ends with'.pae2xf' and is in the same folder as this program")
                 input("\nPress ENTER to EXIT")
                 sys.exit(1)
-            print("\nEnter a File Name and extension for the decrypted file")
-            decrypted_filename = input()
-            if file_detection(decrypted_filename):
-                print("\nA file with the same name has been detected")
-                print("If you continue the file will be overwritten")
-                over_write_decrypted = input("\nDo you wish to continue (Y/n): ").lower()
-                if over_write_decrypted == "n":
-                    cancel()
-                if over_write_decrypted != "y":
-                    invalid_selection()
+            input("\nPress ENTER to select where the Decrypted File will be saved")
+            decrypted_filename = save_file_dialog("")
             print("\nDecryption in progress...")
             aes_decrypt(encrypted_filename, key_filename, decrypted_filename)
             print("\nDecryption has finished")
-            print(f"\nThe decrypted file has been saved as {decrypted_filename}")
+            print(f"\nThe decrypted file has been saved at {decrypted_filename}")
             input("\nPress ENTER to EXIT")
         else:
             invalid_selection()
@@ -239,110 +225,59 @@ def main():
         selection = input("\nSelection: ")
         if selection == "1":
             print("\nThis Program Encrypts Data via RSA 4096 Public Key")
-            print("Please Copy The File to be Encrypted and Public Key into the same Folder as this Program")
-            print("\nIf the public key was NOT generated via this Program please rename the file extension to "
-                  "'.prs4pub'")
-            print("The Encrypted file extension will end in '.prs4enc'")
-            input("\nPress ENTER to CONTINUE")
-            print("\nPlease Enter the file name of the public key")
-            key_filename = input()
-            if key_filename[-8:] != ".prs4pub":
-                key_filename = str(key_filename) + str('.prs4pub')
+            input("\nPress ENTER to locate the Public Key File")
+            key_filename = open_file_dialog()
             if not file_detection(key_filename):
-                print("\nError: File Does not exit")
-                input("\nPress ENTER to EXIT")
+                file_not_found()
             else:
-                print("\nPlease Enter the file name and file extension of the file to encrypt:")
-                to_encrypt_filename = input()
+                input("\nPress ENTER to locate the File to be Encrypted")
+                to_encrypt_filename = open_file_dialog()
                 if not file_detection(to_encrypt_filename):
-                    print("\nError: File Does not exit")
-                    input("Press ENTER to EXIT")
+                    file_not_found()
                 else:
-                    print("\nPlease enter a file name for the encrypted file:")
-                    encrypted_filename = input()
-                    if encrypted_filename[-8:] != '.prs4enc':
-                        encrypted_filename = str(encrypted_filename) + str('.prs4enc')
+                    input("\nPress ENTER to select where the Encrypted File will be saved")
+                    encrypted_filename = save_file_dialog(".prs4enc")
                     print("\nBeginning Encryption...")
                     rsa_encrypt(to_encrypt_filename, key_filename, encrypted_filename)
                     print("\nEncryption Complete")
-                    print(f"The Encrypted file has been saved as {encrypted_filename}")
+                    print(f"The Encrypted file has been saved at {encrypted_filename}")
                     input("\nPress ENTER to EXIT")
         elif selection == "2":
             print("\nThis Program Decrypts Data via RSA 4096 Private Key")
-            print("Please Copy The File to be Encrypted and Private Key into the same Folder as this Program")
-            print("\nIf the private key was NOT generated via this Program please rename the file extension to "
-                  "'.prs4pri'")
-            print("\nIf the encrypted file was not encrypted via this program please rename the file extension to "
-                  "'.prs4enc'")
-            input("\nPress ENTER to CONTINUE")
-            print("\nPlease Enter the Private Key file name")
-            private_key_filename = input()
-            if private_key_filename[-8:] != '.prs4pri':
-                private_key_filename = str(private_key_filename) + str('.prs4pri')
+            input("\nPress ENTER to locate the Private Key File")
+            private_key_filename = open_file_dialog()
             if not file_detection(private_key_filename):
-                print("\nError: File Does not exit")
-                input("\nPress ENTER to EXIT")
+                file_not_found()
             else:
-                print("\nPlease Enter the Encrypted file name")
-                encrypted_filename = input()
-                if encrypted_filename[-8:] != '.prs4enc':
-                    encrypted_filename = str(encrypted_filename) + str('.prs4enc')
+                input("\nPress ENTER to locate the Encrypted File")
+                encrypted_filename = open_file_dialog()
                 if not file_detection(encrypted_filename):
-                    print("\nError: File Does not exit")
-                    input("\nPress ENTER to EXIT")
+                    file_not_found()
                 else:
-                    print("\nEnter a File Name and extension for the decrypted file")
-                    decrypted_filename = input()
-                    if file_detection(decrypted_filename):
-                        print("\nA file with the same name has been detected")
-                        print("If you continue the file will be overwritten")
-                        over_write_decrypted = input("\nDo you wish to continue (Y/n): ").lower()
-                        if over_write_decrypted == 'n':
-                            cancel()
-                        if over_write_decrypted != 'y':
-                            invalid_selection()
+                    input("\nPress ENTER to select where the Decrypted File will be saved")
+                    decrypted_filename = save_file_dialog("")
                     print("\nBeginning Decryption...")
                     rsa_decrypt(encrypted_filename, private_key_filename, decrypted_filename)
                     print("\nDecryption Complete")
-                    print(f"The Decrypted File has been saved as {decrypted_filename}")
+                    print(f"The Decrypted File has been saved at {decrypted_filename}")
                     input("\nPress ENTER to EXIT")
         elif selection == "3":
             print("\nThis Program Generates RSA 4096 Key Pairs")
-            print("The Public Key will end with a Extension of '.prs4pub'")
-            print("The Private Key will end with a Extension of '.prs4pri'")
             print("\nThe Public Key can be sent to anyone to Encrypt Data")
             print("The Encrypted Data can only be Decrypted with the Private Key")
             print("\nKEEP THE PRIVATE KEY SAFE")
-            print("\nEnter a file name for the Public Key ")
-            pub_key_filename = input()
-            if pub_key_filename[-8:] != ".prs4pub":
-                pub_key_filename = str(pub_key_filename) + str(".prs4pub")
-            if file_detection(pub_key_filename):
-                print("\nA file with the same name has been detected")
-                print("If you continue the file will be overwritten")
-                over_write_rsa_pub_key = input("\nDo you wish to continue (Y/n): ").lower()
-                if over_write_rsa_pub_key == "n":
-                    cancel()
-                if over_write_rsa_pub_key != "y":
-                    invalid_selection()
-            print("\nEnter a file name for the Private Key")
-            priv_key_filename = input()
-            if priv_key_filename[-8:] != ".prs4pri":
-                priv_key_filename = str(priv_key_filename) + str(".prs4pri")
-            if file_detection(priv_key_filename):
-                print("\nA file with the same name has been detected")
-                print("If you continue the file will be overwritten")
-                over_write_rsa_priv_key = input("\nDo you wish to continue (Y/n): ").lower()
-                if over_write_rsa_priv_key == "n":
-                    cancel()
-                if over_write_rsa_priv_key != "y":
-                    invalid_selection()
+            input("\n\nPress ENTER to select where the Public Key will be saved")
+            pub_key_filename = save_file_dialog(".prs4pub")
+            input("\nPress ENTER to select where the Private Key will be saved")
+            priv_key_filename = save_file_dialog(".prs4pri")
             print("\nBeginning Key Generation...")
             keys = rsa_key_generate()
             write_data(pub_key_filename, keys[1])
             write_data(priv_key_filename, keys[0])
             print("\nKey Generation Complete")
-            input("Press ENTER to EXIT")
+            print(f"\nThe Public Key has been saved at {pub_key_filename}")
+            print(f"The Private Key has been saved at {priv_key_filename}")
+            input("\nPress ENTER to EXIT")
         else:
             invalid_selection()
     else:

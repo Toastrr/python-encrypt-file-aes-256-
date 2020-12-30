@@ -5,7 +5,9 @@ This program encrypts or decrypts a file using aes256 encryption.
 Keys are generated via os.urandom.
 
 AES 256 is symmetrical encryption meaning the same key is used to encrypt and decrypt
+
 AES 256 via RSA 4096 is a method of which AES 256 is used to encrypt the file and RSA 4096 is used to encrypt the AES Key
+
 RSA 4096 is asymmetrical encryption meaning the public key used to encrypt can only be decrypted by the private key
 
 

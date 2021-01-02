@@ -11,6 +11,7 @@ from tkinter import filedialog
 def write_data(filename, data):
     with open(filename, "wb") as file:
         file.write(data)
+    del data
 
 
 def read_data(filename):
@@ -44,7 +45,7 @@ def aes_encrypt(filename_to_encrypt, key_filename, encrypted_filename):
     write_data(key_filename, cipher[1])
     data_to_encrypt = read_data(filename_to_encrypt)
     encrypted_data = aes_encrypt_data(data_to_encrypt, cipher[0])
-    del data_to_encrypt
+    del data_to_encrypt, cipher
     write_encrypted_data = open(encrypted_filename, "wb")
     [write_encrypted_data.write(i) for i in (encrypted_data[0], encrypted_data[1], encrypted_data[2])]
     write_encrypted_data.close()
@@ -103,6 +104,7 @@ def rsa_encrypt(filename_to_encrypt, public_key_filename, encrypted_filename):
     encrypted_data = rsa_encrypt_data(data_to_encrypt, public_key)
     del data_to_encrypt, public_key
     write_data(encrypted_filename, encrypted_data)
+    del encrypted_data
 
 
 # RSA Decrypt
@@ -129,6 +131,7 @@ def aes_from_rsa_encrypt_data(data_to_be_encrypted, public_key):
     aes_key = aes_key_generate()
     aes_encrypted_data = aes_encrypt_data(data_to_be_encrypted, aes_key[0])
     rsa_encrypted_aes_key = rsa_encrypt_data(aes_key[1], public_key)
+    del aes_key
     return rsa_encrypted_aes_key, aes_encrypted_data[0], aes_encrypted_data[1], aes_encrypted_data[2]
 
 
@@ -136,16 +139,20 @@ def aes_from_rsa_encrypt(filename_to_encrypt, public_key_filename, encrypted_fil
     data_to_encrypt = read_data(filename_to_encrypt)
     public_key = read_data(public_key_filename)
     encrypted_data = aes_from_rsa_encrypt_data(data_to_encrypt, public_key)
+    del data_to_encrypt, public_key
     with open(encrypted_filename, "wb") as write_encrypted_data:
         [write_encrypted_data.write(i) for i in
          (encrypted_data[0], encrypted_data[1], encrypted_data[2], encrypted_data[3])]
+    del encrypted_data
 
 
 # AES via RSA Decryption
 def aes_from_rsa_decrypt_data(rsa_encrypted_aes_key, private_key, ciphertext, tag, nonce):
     random_bytes = rsa_decrypt_data(rsa_encrypted_aes_key, private_key)
     cipher = AES.new(random_bytes, AES.MODE_EAX, nonce)
+    del random_bytes
     decrypted = aes_decrypt_data(ciphertext, tag, cipher)
+    del cipher
     return decrypted
 
 
@@ -157,9 +164,12 @@ def aes_from_rsa_decrypt(encrypted_filename, private_key_filename, decrypted_fil
     nonce = encrypted_aes_data[:16]
     tag = encrypted_aes_data[16:32]
     ciphertext = encrypted_aes_data[32:]
+    del encrypted_data, encrypted_aes_data
     decrypted_data = aes_from_rsa_decrypt_data(encrypted_aes_key, private_key, ciphertext,
                                                tag, nonce)
+    del private_key, encrypted_aes_key, ciphertext, tag, nonce
     write_data(decrypted_filename, decrypted_data)
+    del decrypted_data
 
 
 # User options and displays
